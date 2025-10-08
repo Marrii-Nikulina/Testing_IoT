@@ -46,12 +46,14 @@ public class LoginPageStepDefs extends ElementRepository {
         performLogin(defaultLogin, defaultPassword);
     }
 
-    @Когда("Выполнить авторизацию под пользователем {string}")
-    public void selectiveAuthorization(String login) {
-        String password = ConfProperties.getProperty(login);
+    @Когда("Выполнить авторизацию, используя логин {string} и пароль {string}")
+    public void selectiveAuthorization(String login, String password) {
+        if (login == null) {
+            throw new IllegalArgumentException("Логин не можеть быть пустым");
+        }
 
         if (password == null) {
-            throw new IllegalArgumentException("Пароль для пользователя " + login + " не найден в конфигурации");
+            throw new IllegalArgumentException("Пароль для пользователя " + login + " не может быть пустым");
         }
 
         performLogin(login, password);
