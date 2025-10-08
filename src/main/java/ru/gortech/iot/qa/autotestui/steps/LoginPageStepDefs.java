@@ -49,7 +49,7 @@ public class LoginPageStepDefs extends ElementRepository {
     @Когда("Выполнить авторизацию, используя логин {string} и пароль {string}")
     public void selectiveAuthorization(String login, String password) {
         if (login == null) {
-            throw new IllegalArgumentException("Логин не можеть быть пустым");
+            throw new IllegalArgumentException("Логин не может быть пустым");
         }
 
         if (password == null) {
