@@ -76,7 +76,7 @@ public class LeftSidebarStepsDefs extends ElementRepository {
         //new CommonStepsDefs().checkBreadcrumbs(section);
     }
 
-    private void equalsArraysSections(DataTable dataTable, ElementsCollection elements) throws InterruptedException {
+    private void equalsArraysSections(DataTable dataTable, ElementsCollection elements) {
         List<String> expectedList = dataTable.asList(String.class);
         List<String> actualList = elements.shouldHave(CollectionCondition.sizeGreaterThanOrEqual(1), Duration.ofSeconds(2)).texts();
 

@@ -1,12 +1,15 @@
 package ru.gortech.iot.qa.autotestui.steps;
 
-import com.codeborne.selenide.Condition;
 import io.cucumber.java.ru.Когда;
+import io.cucumber.java.ru.Тогда;
 import lombok.extern.slf4j.Slf4j;
 import ru.gortech.iot.qa.autotestui.helpers.ConfProperties;
 import ru.gortech.iot.qa.autotestui.pages.ElementRepository;
 
 import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 
 /**
  * @project autotestUI
@@ -18,16 +21,16 @@ public class LoginPageStepDefs extends ElementRepository {
     private void performLogin(String login, String password) {
         try {
             // Проверяем видимость поля логина
-            loginPage.login.shouldBe(Condition.visible, Duration.ofSeconds(5));
+            loginPage.login.shouldBe(visible, Duration.ofSeconds(5));
 
             // Вводим логин и пароль
-            loginPage.login.sendKeys(login);
-            loginPage.password.sendKeys(password);
+            loginPage.login.setValue(login);
+            loginPage.password.setValue(password);
 
             // Нажимаем кнопку входа
             loginPage.loginButton.click();
 
-            log.info("Авторизация выполнена. Пользователь: {}", login);
+            log.info("Выполнена попытка авторизации. Пользователь: {}, пароль: {}", login, password);
         } catch (Exception e) {
             log.error("Ошибка при авторизации пользователя {}: {}", login, e.getMessage());
             throw e; // Перебрасываем исключение для обработки на более высоком уровне
@@ -48,14 +51,23 @@ public class LoginPageStepDefs extends ElementRepository {
 
     @Когда("Выполнить авторизацию, используя логин {string} и пароль {string}")
     public void selectiveAuthorization(String login, String password) {
-        if (login == null) {
+        if (login.trim().isEmpty()) {
             throw new IllegalArgumentException("Логин не может быть пустым");
         }
 
-        if (password == null) {
+        if (password.trim().isEmpty()) {
             throw new IllegalArgumentException("Пароль для пользователя " + login + " не может быть пустым");
         }
 
         performLogin(login, password);
+    }
+
+    @Тогда("Проверить, что появляется всплывающая подсказка содержащая текст {string}")
+    public void checkNotificationMessage(String expectedText) {
+        loginPage.notificationMessage
+                .shouldBe(visible)
+                .shouldHave(exactText(expectedText));
+
+        log.info("Выполнена проверка текста '{}' во всплывающем сообщении", expectedText);
     }
 }

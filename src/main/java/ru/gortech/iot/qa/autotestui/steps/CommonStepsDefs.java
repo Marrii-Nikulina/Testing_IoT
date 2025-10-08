@@ -15,9 +15,6 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * @project autotestUI
- */
 @Slf4j
 public class CommonStepsDefs extends ElementRepository {
     @Когда("Верхняя панель. Убедиться, что заголовок страницы равен {string}")
@@ -32,7 +29,7 @@ public class CommonStepsDefs extends ElementRepository {
     @SneakyThrows
     @Тогда("Верхняя панель. Проверить, что в хлебных крошках присутствует {string}")
     public void checkBreadcrumbs(String expectedBreadcrumbs) {
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         assertThat(commonElements.breadcrumb.texts())
                 .as(String.format("Проверка наличия '%s' в хлебных крошках", expectedBreadcrumbs))
                 .anyMatch(text -> text.contains(expectedBreadcrumbs));

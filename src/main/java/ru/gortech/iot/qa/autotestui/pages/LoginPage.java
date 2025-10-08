@@ -13,4 +13,5 @@ public class LoginPage {
     public SelenideElement login = $(id("username-input"));
     public SelenideElement password = $(id("password-input"));
     public SelenideElement loginButton = $(id("login-button"));
+    public SelenideElement notificationMessage = $(xpath("//notification//div[@class='notification']//p[@class='message']"));
 }
