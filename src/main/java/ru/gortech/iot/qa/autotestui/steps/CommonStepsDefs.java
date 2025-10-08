@@ -4,6 +4,7 @@ import com.codeborne.selenide.ClickOptions;
 import io.cucumber.java.ru.Затем;
 import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -28,8 +29,10 @@ public class CommonStepsDefs extends ElementRepository {
         log.info("Отображается страница с заголовком: {}", expectedTitle);
     }
 
+    @SneakyThrows
     @Тогда("Верхняя панель. Проверить, что в хлебных крошках присутствует {string}")
     public void checkBreadcrumbs(String expectedBreadcrumbs) {
+        Thread.sleep(2000);
         assertThat(commonElements.breadcrumb.texts())
                 .as(String.format("Проверка наличия '%s' в хлебных крошках", expectedBreadcrumbs))
                 .anyMatch(text -> text.contains(expectedBreadcrumbs));
